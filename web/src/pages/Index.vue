@@ -4,6 +4,11 @@
       <h2>{{author}}</h2>
       <p><i>{{quote}}</i></p>
       <img :src="picture">
+      <q-input
+        class="input-author"
+        v-model="authorName"
+        stack-label="Nom d'un personnage"
+      />
       <q-btn
         class="btn-quote"
         color="secondary"
@@ -22,6 +27,7 @@ export default {
   name: 'PageIndex',
   data: function () {
     return {
+      authorName: '',
       author: '',
       quote: '',
       picture: '',
@@ -34,15 +40,27 @@ export default {
   methods: {
     loadQuote () {
       this.isLoading = true
-      this.$axios
-        .get('/api/getquote')
-        .then((response) => {
-          console.log(response)
-          this.author = response.data.author.name
-          this.quote = response.data.quote.text
-          this.picture = response.data.author.iconUrl
-          this.isLoading = false
-        })
+      if (this.authorName.length > 0) {
+        this.$axios
+          .get('/api/getquote/author/' + this.authorName)
+          .then((response) => {
+            console.log(response)
+            this.author = response.data.author.name
+            this.quote = response.data.quote.text
+            this.picture = response.data.author.iconUrl
+            this.isLoading = false
+          })
+      } else {
+        this.$axios
+          .get('/api/getquote')
+          .then((response) => {
+            console.log(response)
+            this.author = response.data.author.name
+            this.quote = response.data.quote.text
+            this.picture = response.data.author.iconUrl
+            this.isLoading = false
+          })
+      }
     }
   }
 }
@@ -58,5 +76,5 @@ export default {
     width: 100%;
     height: auto;
   }
-  .btn-quote { margin-top: 15px; }
+  .btn-quote, input-author { margin-top: 15px; }
 </style>
