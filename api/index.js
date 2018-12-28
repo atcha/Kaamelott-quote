@@ -24,7 +24,6 @@ app.get('/getquote', function(req, result) {
         agent: agent
     }, function (res) {
         res.on('data', function (data) {
-            console.log(data.toString());
             result.send(data.toString());
         });
     }).end();
