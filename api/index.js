@@ -5,7 +5,7 @@ const express = require('express'),
     app = express();
 
 var Https = require('https');
-var agent = new HttpsProxyAgent('http://mutpoit:8085');
+var agent = new HttpsProxyAgent('');
 
 app.set('trust proxy');
 
